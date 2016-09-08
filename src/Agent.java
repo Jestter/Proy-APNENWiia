@@ -2,10 +2,12 @@
 public class Agent
 {
 
-	String filePath;
-	int waitTime;
+	static final int BOARDSIZE=8;	/// The size of the board
 
-	Board iniBoard;
+	private String filePath;
+	private int waitTime;
+
+	private Board iniBoard;
 
 	public static void main(String[] args)
 	{
@@ -16,7 +18,17 @@ public class Agent
 	{
 		this.filePath = fPath;
 		this.waitTime = time;
+		this.iniBoard = new Board();
 
-		//leer archivo y obtener datos
+
+		int[][] board = new int[BOARDSIZE][BOARDSIZE];
+		BufferedReader bf = new BufferedReader(new FileReader(fPath));
+		for(int i = 0;((String line = bf.readLine())!=null);i++)
+		{
+			
+		}
+
+		iniBoard.fromArray(board);
+
 	}
 }
