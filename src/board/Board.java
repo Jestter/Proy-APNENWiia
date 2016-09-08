@@ -26,7 +26,7 @@ public class Board {
 
 	/// Constants to make the code understandable
 
-	static final int BOARDSIZE=16;	/// The size of the board
+	static final int BOARDSIZE=8;	/// The size of the board
 
 	static final int EMPTY=0;	/// An empty square
 
