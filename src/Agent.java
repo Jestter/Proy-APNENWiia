@@ -85,12 +85,14 @@ public class Agent
 		}
 
 		iniBoard.fromArray(board);
-		DFS(iniBoard);
+		System.out.println("min prof : "+DFS(iniBoard,0));
 	}
 
-	public void DFS(Board board)
+	public long DFS(Board board, long depth)
 	{
+		if(depth > 5)return 10000;
 		Move[] validMoves = board.getValidMoves();
+		long minDepth = 10000;
 		for(Move m : validMoves)
 		{
 			Board aux = board.clone();
@@ -98,13 +100,15 @@ public class Agent
 			if(!board.isCheckMate())
 			{
 				count++;
-				DFS(aux);
+				//System.out.println(depth);
+				minDepth = Math.min(minDepth , DFS(aux, depth+1));
 			}
 			else
 			{
-				System.out.println("Agg");
+				//System.out.println("Agg");
+				return depth;
 			}
 		}
-
+		return minDepth;
 	}
 }
