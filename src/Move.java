@@ -1,3 +1,4 @@
+
 import java.util.Comparator;
 public class Move implements Comparator {
 	Coord src;
