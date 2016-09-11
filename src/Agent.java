@@ -1,86 +1,32 @@
-import java.io.*;
 
 public class Agent
 {
+
+	static final int BOARDSIZE=8;	/// The size of the board
 
 	private String filePath;
 	private int waitTime;
 
 	private Board iniBoard;
+	private int count;
 
-	public static void main(String[] args) throws IOException
+	public static void main(String[] args)
 	{
 		new Agent(args[0],Integer.parseInt(args[1]));
 	}
 
-	public Agent(String fPath, int time) throws IOException
+	public Agent(String fPath, int time)
 	{
 		this.filePath = fPath;
 		this.waitTime = time;
 		this.iniBoard = new Board();
+		this.count = 0;
 
-
-		int[][] board = new int[Board.BOARDSIZE][Board.BOARDSIZE];
+		int[][] board = new int[BOARDSIZE][BOARDSIZE];
 		BufferedReader bf = new BufferedReader(new FileReader(fPath));
-		int l = 0;
-		String line;
-		while((line = bf.readLine())!=null)
+		for(int i = 0;((String line = bf.readLine())!=null);i++)
 		{
-			if(l < 8)
-			{
-				String splited[] = line.split(" ");
-				for (int j=0; j < 8; j++)
-				{
-					board[l][j] = Integer.parseInt(splited[j]);
-					System.out.print(board[l][j]+" ");
-				}
-				System.out.println();
-			}
-			if(l == 8)
-			{
-				if(line.equals("B"))
-				{
-					iniBoard.setTurn(Board.TURNWHITE);
-				}
-				else
-				{
-					iniBoard.setTurn(Board.TURNBLACK);
-				}
-			}
-			else
-			{
-				if(line.startsWith("MovsHastaEmpate"))
-				{
-					iniBoard.setMovesToDraw(Integer.parseInt(line.split(" ")[1]));
-				}
-
-				else if(line.startsWith("EnroqueL_B"))
-				{
-					iniBoard.setLongCastle(iniBoard.turn , true);
-				}
-
-				else if(line.startsWith("EnroqueL_N"))
-				{
-					iniBoard.setLongCastle(iniBoard.turn , true);
-				}
-
-				else if(line.startsWith("EnroqueC_B"))
-				{
-					iniBoard.setShortCastle(iniBoard.turn , true);
-				}
-
-				else if(line.startsWith("EnroqueC_N"))
-				{
-					iniBoard.setShortCastle(iniBoard.turn , true);
-				}
-
-				else if(line.startsWith("AlPaso"))
-				{
-					iniBoard.setEnPassent(new Coord(line.split(" ")[1]));
-				}
-			}
-
-			l++;
+			
 		}
 
 		iniBoard.fromArray(board);
@@ -94,7 +40,15 @@ public class Agent
 		{
 			Board aux = board.clone();
 			aux.makeMove(m);
-			DFS(aux);
+			if(!aux.isCheckMate())
+			{
+				count++;
+				DFS(aux);
+			}
+			else
+			{
+				return; //puede que aquí tenga que ir otra cosa xDDD
+			}
 		}
 
 	}
