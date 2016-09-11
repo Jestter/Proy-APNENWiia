@@ -7,6 +7,7 @@ public class Agent
 	private int waitTime;
 
 	private Board iniBoard;
+	private int count;
 
 	public static void main(String[] args) throws IOException
 	{
@@ -18,7 +19,7 @@ public class Agent
 		this.filePath = fPath;
 		this.waitTime = time;
 		this.iniBoard = new Board();
-
+		this.count = 0;
 
 		int[][] board = new int[Board.BOARDSIZE][Board.BOARDSIZE];
 		BufferedReader bf = new BufferedReader(new FileReader(fPath));
@@ -94,7 +95,15 @@ public class Agent
 		{
 			Board aux = board.clone();
 			aux.makeMove(m);
-			DFS(aux);
+			if(!board.isCheckMate())
+			{
+				count++;
+				DFS(aux);
+			}
+			else
+			{
+				System.out.println("Agg");
+			}
 		}
 
 	}
