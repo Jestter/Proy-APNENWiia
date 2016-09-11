@@ -84,7 +84,7 @@ public class Agent
 		}
 
 		iniBoard.fromArray(board);
-
+		DFS(iniBoard);
 	}
 
 	public void DFS(Board board)
