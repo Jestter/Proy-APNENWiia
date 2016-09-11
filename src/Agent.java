@@ -31,4 +31,16 @@ public class Agent
 		iniBoard.fromArray(board);
 
 	}
+
+	public void DFS(Board board)
+	{
+		Move[] validMoves = board.getValidMoves();
+		for(Move m : validMoves)
+		{
+			Board aux = board.clone();
+			aux.makeMove(m);
+			DFS(aux);
+		}
+
+	}
 }
