@@ -96,7 +96,10 @@ public class Agent
 			Board aux = iniBoard.clone();
 			aux.makeMove(m);
 			count++;
-			long score = DFS(aux);
+			//long score = DFS(aux);
+			long score = 0;
+			long depth = 0;
+			while((score = IDS(aux,depth)) == 0) depth++;
 			if(score > bestScoreSoFar) 
 			{
 				bestMove = m;
@@ -109,7 +112,7 @@ public class Agent
 	public long DFS(Board board)
 	{
 		if(board.isStalemate()) return 0;
-		if(board.isCheckMate()) return (board.turn == iniBoard.turn? -1 : 1);
+		if(board.isCheckMate()) return (board.turn == iniBoard.turn? 0 : 1);
 
 		Move[] validMoves = board.getValidMoves();
 		long sum = 0;
@@ -119,9 +122,29 @@ public class Agent
 			aux.makeMove(m);
 			count++;
 			long score = DFS(aux);
-			sum += (score > 0 ? score : 0 );
+			sum += score;
 		}
 
 		return sum;
 	}
+
+	public long IDS(Board board, long depth)
+	{
+		if(board.isCheckMate()) return (board.turn == iniBoard.turn? 0 : 1);
+		if(board.isStalemate() || depth == 0) return 0;
+
+		Move[] validMoves = board.getValidMoves();
+		long sum = 0;
+		for(Move m : validMoves)
+		{
+			Board aux = board.clone();
+			aux.makeMove(m);
+			count++;
+			long score = IDS(aux, depth-1);
+			sum += score;
+		}
+
+		return sum;
+	}
+
 }
