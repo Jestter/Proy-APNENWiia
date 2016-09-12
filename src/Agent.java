@@ -89,22 +89,28 @@ public class Agent
 	public Move nextMove()
 	{
 		Move bestMove = null;
-		long bestScoreSoFar = Long.MIN_VALUE;
+		long bestScoreSoFar = 0;
 		Move[] validMoves = iniBoard.getValidMoves();
-		for(Move m : validMoves)
+		long depth = 0;
+		while(bestMove == null)
 		{
-			Board aux = iniBoard.clone();
-			aux.makeMove(m);
-			count++;
-			//long score = DFS(aux);
-			long score = 0;
-			long depth = 0;
-			while((score = IDS(aux,depth)) == 0) depth++;
-			if(score > bestScoreSoFar) 
+			System.out.println("depth: "+depth);
+			for(Move m : validMoves)
 			{
-				bestMove = m;
-				bestScoreSoFar = score;
+				Board aux = iniBoard.clone();
+				aux.makeMove(m);
+				count++;
+				//long score = DFS(aux);
+				long score = IDS(aux,depth);
+				if(score > 0)System.out.println("candidate : " + m.toString());
+				if(score > bestScoreSoFar) 
+				{
+					bestMove = m;
+					System.out.println("MoveChanged to " + m.toString());
+					bestScoreSoFar = score;
+				}
 			}
+			depth++;
 		}
 		return bestMove;
 	}
