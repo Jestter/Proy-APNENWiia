@@ -23,7 +23,7 @@ public class Agent
 
 		int[][] board = new int[Board.BOARDSIZE][Board.BOARDSIZE];
 		BufferedReader bf = new BufferedReader(new FileReader(fPath));
-		int l = 0;
+		int l = 0; //contador de lineas
 		String line;
 		while((line = bf.readLine())!=null)
 		{
@@ -33,9 +33,7 @@ public class Agent
 				for (int j=0; j < 8; j++)
 				{
 					board[l][j] = Integer.parseInt(splited[j]);
-					System.out.print(board[l][j]+" ");
 				}
-				System.out.println();
 			}
 			if(l == 8)
 			{
@@ -85,30 +83,45 @@ public class Agent
 		}
 
 		iniBoard.fromArray(board);
-		System.out.println("min prof : "+DFS(iniBoard,0));
+		System.out.println("next move : "+ nextMove().toString());
 	}
 
-	public long DFS(Board board, long depth)
+	public Move nextMove()
 	{
-		if(depth > 5)return 10000;
+		Move bestMove = null;
+		long bestScoreSoFar = Long.MIN_VALUE;
+		Move[] validMoves = iniBoard.getValidMoves();
+		for(Move m : validMoves)
+		{
+			Board aux = iniBoard.clone();
+			aux.makeMove(m);
+			count++;
+			long score = DFS(aux);
+			if(score > bestScoreSoFar) 
+			{
+				bestMove = m;
+				bestScoreSoFar = score;
+			}
+		}
+		return bestMove;
+	}
+
+	public long DFS(Board board)
+	{
+		if(board.isStalemate()) return 0;
+		if(board.isCheckMate()) return (board.turn == iniBoard.turn? -1 : 1);
+
 		Move[] validMoves = board.getValidMoves();
-		long minDepth = 10000;
+		long sum = 0;
 		for(Move m : validMoves)
 		{
 			Board aux = board.clone();
 			aux.makeMove(m);
-			if(!board.isCheckMate())
-			{
-				count++;
-				//System.out.println(depth);
-				minDepth = Math.min(minDepth , DFS(aux, depth+1));
-			}
-			else
-			{
-				//System.out.println("Agg");
-				return depth;
-			}
+			count++;
+			long score = DFS(aux);
+			sum += (score > 0 ? score : 0 );
 		}
-		return minDepth;
+
+		return sum;
 	}
 }
