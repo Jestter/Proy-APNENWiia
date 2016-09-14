@@ -31,8 +31,15 @@ public class Agent
 		loadTBL();
 		
 		long tini = System.nanoTime();
-		System.out.println("next move : "+ nextMove().toString()+"\nElapsed time: " + 
-			((System.nanoTime()-tini)/1e9) + " s");
+
+		System.out.println("next move : "+ nextMoveDFS().toString()
+			+"\nElapsed time: " + ((System.nanoTime()-tini)/1e9) + " s");
+
+
+		tini = System.nanoTime();
+
+		System.out.println("next move : "+ nextMoveIDS().toString()
+			+"\nElapsed time: " + ((System.nanoTime()-tini)/1e9) + " s");
 	}
 
 	public void loadTBL() throws IOException
@@ -101,7 +108,30 @@ public class Agent
 		iniBoard.fromArray(board);
 	}
 
-	public Move nextMove()
+	public Move nextMoveDFS()
+	{
+		Move bestMove = null;
+		int bestScoreSoFar = -2;
+		Move[] validMoves = iniBoard.getValidMoves();
+	
+		for(Move m : validMoves)
+		{
+			Board aux = iniBoard.clone();
+			aux.makeMove(m);
+			count++;
+			int score = DFS(aux);
+			if(score > bestScoreSoFar) 
+			{
+				bestMove = m;
+				bestScoreSoFar = score;
+				if(bestScoreSoFar == 1)break;
+			}
+		}
+	
+		return bestMove;
+	}
+
+	public Move nextMoveIDS()
 	{
 		Move bestMove = null;
 		int bestScoreSoFar = -2;
@@ -131,7 +161,7 @@ public class Agent
 		return bestMove;
 	}
 
-	public int DFS(Board board)
+	private int DFS(Board board)
 	{
 		if(board.isCheckMate()) return (board.turn == iniBoard.turn? -1 : 1);
 		if(board.isStalemate()) return 0;
@@ -160,7 +190,7 @@ public class Agent
 		return bestVal;
 	}
 
-	public int IDS(Board board, long depth)
+	private int IDS(Board board, long depth)
 	{
 		if(board.isCheckMate()) return (board.turn == iniBoard.turn? -1 : 1);
 		if(board.isStalemate() || depth == 0) return 0;
