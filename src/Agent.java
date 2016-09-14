@@ -42,6 +42,10 @@ public class Agent
 			+"\nElapsed time: " + ((System.nanoTime()-tini)/1e9) + " s");
 	}
 
+	/** Carga el archivo .tbl especificado en this.filePath
+	**
+	**/
+
 	public void loadTBL() throws IOException
 	{
 		int[][] board = new int[Board.BOARDSIZE][Board.BOARDSIZE];
@@ -108,6 +112,10 @@ public class Agent
 		iniBoard.fromArray(board);
 	}
 
+	/**	Realiza una busqueda del siguiente movimiento con DFS 
+	** @return el mejor movimiento encontrado (si es que lo encuentra)
+	**/
+
 	public Move nextMoveDFS()
 	{
 		Move bestMove = null;
@@ -130,6 +138,10 @@ public class Agent
 	
 		return bestMove;
 	}
+
+	/** Realiza una busqueda del siguiente movimiento con IDS 
+	** @return el mejor movimiento encontrado
+	**/
 
 	public Move nextMoveIDS()
 	{
@@ -161,6 +173,10 @@ public class Agent
 		return bestMove;
 	}
 
+	/** Funcion Minimax implementada con busqueda con DFS
+	** @return el resultado de minimax
+	**/
+
 	private int DFS(Board board)
 	{
 		if(board.isCheckMate()) return (board.turn == iniBoard.turn? -1 : 1);
@@ -189,6 +205,10 @@ public class Agent
 
 		return bestVal;
 	}
+
+	/** Funcion Minimax implementada con busqueda IDS
+	** @return el valor encontrado del minimax
+	**/
 
 	private int IDS(Board board, long depth)
 	{
