@@ -15,4 +15,6 @@ Compilación:
 	javac Coord.java
 
 Ejecución:
+	Por línea de comandos ingresar a la carpeta src y ejecutar lo siguiente
+
 	java Agent <archivo tbl> <tiempo máximo>
