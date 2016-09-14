@@ -1,9 +1,9 @@
------------------------------
-==	Agente de Ajedrez  ==
+-----------------------
+==Agente de Ajedrez==
 
-	por Fabian Olivares 
-	y Nicolas Pradenas
------------------------------
+ por Fabian Olivares 
+ y Nicolas Pradenas
+------------------------
 
 
 Compilación: 
