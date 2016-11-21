@@ -1,6 +1,7 @@
 cd src
-javac Agent.java
-javac Board.java
-javac Move.java
-javac Coord.java
+javac *.java
 cd ..
+cd Tournament
+javac *.java
+cd ..
+PAUSE
