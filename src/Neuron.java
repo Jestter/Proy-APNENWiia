@@ -12,11 +12,7 @@ public class Neuron
 
 	public double getValue()
 	{
-		if(this.isActivated())
-		{
-			return value;
-		}
-		return 0;
+		return value;
 	}
 
 	public void setValue(double value)
@@ -28,6 +24,7 @@ public class Neuron
 	{
 		/* codigo para determinar si esta activada aca*/
 
-		return false;
+		//pasa siempre por ahora
+		return true;
 	}
 }

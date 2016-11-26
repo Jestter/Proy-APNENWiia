@@ -41,12 +41,32 @@ public class Network
 
 	public double evaluate(Board board)
 	{
-		
+		//se setean las neuronas de la primera capa segun el tablero
+		for (int i=0;i < Board.BOARDSIZE; i++ ) 
+		{
+			for (int j=0;j < Board.BOARDSIZE; j++ ) 
+			{
+				initLayer[i*Board.BOARDSIZE+j].setValue(board[i][j]);
+			}			
+		}
+
+		//se propagan los valores
+		for (LayerBridge bridge : bridges)
+		{
+			bridge.propagateForward();
+		}
+
+		//se retorna el output de la red
+		return output.getValue();
 	}
 
-	public double train(Board board, double value)
+	public double train(Board board, double trueValue)
 	{
-		
+		double currVal = evaluate(board);
+
+		//calcular error
+
+		//usar propagateBackward (backpropagation) para propagarlo
 	}
 
 
