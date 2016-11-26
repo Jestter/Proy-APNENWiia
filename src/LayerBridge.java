@@ -26,13 +26,22 @@ public class LayerBridge
 	*/
 	public void propagateForward()
 	{
-
+		for (int i=0; i < this.layer2.length ; i++)
+		{
+			double sum = 0;
+			for (int j=0;j < this.layer1.length; j++)
+			{
+				if(this.layer1[j].isActivated()) 
+					sum += weights[j][i] * this.layer1[j].getValue();
+			}
+			this.layer2[i].setValue(sum);
+		}
 	}
 
 	/*
 		Para ajustar los pesos con backprop
 	*/
-	public void propagatebackward()
+	public void propagateBackward()
 	{
 			
 	}
