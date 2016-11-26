@@ -1,11 +1,13 @@
 public class Connection
 {
-	public int neuronID;
+	public int from;
+	public int to;
 	public double weight;
 
-	public Connection(int ID,double weight)
+	public Connection(int from,int to,double weight)
 	{
-		this.neuronID = ID;
+		this.from = from;
+		this.to = to;
 		this.weight = weight;
 	}
 }

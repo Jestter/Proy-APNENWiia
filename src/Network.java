@@ -3,54 +3,50 @@ import java.util.*;
 public class Network
 {
 
-	Arraylist<ArrayList<Connection> > connections;
+	LayerBridge[] bridges;
+	Neuron[] initLayer;
+	Neuron output;
 
 	public Network(int hiddenLayers,int[] neuronsInLayer)
 	{
-		int initCapacity = 65;
-		for (int i=0; i < hiddenLayers; i++) initCapacity += neuronsInLayer[i];
-
-		connections = new Arraylist<Arraylist<Connection>>(initCapacity);
-
-		for (int i=0; i < 64 ; i++)
+		//se crea la primera capa(64 neuronas para representar tablero) y la ultima (1 neurona)
+		this.output = new Neuron();
+		this.initLayer = new Neuron[64];
+		for (int i=0;i < 64 ; i++) 
 		{
-			for (int j=64; j< 64+neuronsInLayer[0];j++ )
+			initLayer[i] = new Neuron();
+		}
+		//se crea la ultima capa
+		lastLayer = new Neuron[1];
+		lastLayer[0] = output;
+		/*se crean las demas capas y son pareadas en puentes (clase que administra las conexiones entre dos capas)
+		y los metodos de propagacion entre estas
+		*/
+		this.bridges = new LayerBridge[hiddenLayers+1];
+		Neuron[] auxLayer = this.initLayer;
+ 		for (int i=0; i < hiddenLayers ; i++)
+		{
+			Neuron[] layer = new Neuron[neuronsInLayer[i]];
+			for (int j=0;j < neuronsInLayer[i] ; j++) 
 			{
-				double ranWeight = Math.random()*2-1;
-				connections.get(i).add(new Connection(j,ranWeight));
+				layer[j] = new Neuron();
 			}
+			this.bridges[i] = new LayerBridge(auxLayer, layer);
+			auxLayer = layer;
 		}
 
-		int neurons = 64;
-		for (int l=0; l < hiddenLayers-1 ;l++ ) 
-		{
-			int ini = neurons + neuronsInLayer[l];
-			for (; neurons < neuronsInLayer[l] ; neurons++)
-			{
-				for (int j= ini ; j < ini+neuronsInLayer[l+1];j++)
-				{
-					double ranWeight = Math.random()*2-1;
-					connections.get(neurons).add(new Connection(j,ranWeight));
-				}
-			}			
-		}
-
-		int output = neurons + neuronsInLayer[hiddenLayers-1];
-		for (; neurons < neuronsInLayer[hiddenLayers-1] ; neurons++)
-		{
-			double ranWeight = Math.random()*2-1;
-			connections.get(neurons).add(new Connection(output,ranWeight));
-		}
+		//se conecta la ultima hidden layer con la ultima capa (output)
+		this.bridges[hiddenLayers] = new LayerBridge(auxLayer, lastLayer);
 	}
 
 	public double evaluate(Board board)
 	{
-
+		
 	}
 
 	public double train(Board board, double value)
 	{
-
+		
 	}
 
 
