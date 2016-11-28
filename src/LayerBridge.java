@@ -1,20 +1,21 @@
-
+import java.lang.Math;
 
 public class LayerBridge
 {
 
 	double[][] weights;
-	Neuron[] layer1;
-	Neuron[] layer2;
+	Layer layer1;
+	Layer layer2;
 
-	public LayerBridge(Neuron[] layer1,Neuron[] layer2)
+
+	public LayerBridge(Layer layer1,Layer layer2)
 	{
 		this.layer1 = layer1;
 		this.layer2 = layer2;
-		this.weights = new double[layer1.length][layer2.length];
-		for (int i=0;  i < layer1.length ; i++)
+		this.weights = new double[layer1.neurons.length][layer2.neurons.length];
+		for (int i=0;  i < layer1.neurons.length ; i++)
 		{
-			for (int j=0;  j < layer2.length ; j++)
+			for (int j=0;  j < layer2.neurons.length ; j++)
 			{
 				weights[i][j] = Math.random()*2-1;
 			}	
@@ -26,15 +27,14 @@ public class LayerBridge
 	*/
 	public void propagateForward()
 	{
-		for (int i=0; i < this.layer2.length ; i++)
+		for (int i=0; i < this.layer2.neurons.length ; i++)
 		{
 			double sum = 0;
-			for (int j=0;j < this.layer1.length; j++)
+			for (int j=0;j < this.layer1.neurons.length; j++)
 			{
-				if(this.layer1[j].isActivated()) 
-					sum += weights[j][i] * this.layer1[j].getValue();
+				sum += weights[j][i] * this.layer1.neurons[j].getOutputValue();
 			}
-			this.layer2[i].setValue(sum);
+			this.layer2.neurons[i].setInputValue(sum+layer2.bias);
 		}
 	}
 

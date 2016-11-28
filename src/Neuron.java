@@ -3,28 +3,35 @@
 public class Neuron
 {
 
-	double value;
+	double inputValue;
+	private boolean changed;
+	private double outputValue;
 
 	public Neuron()
 	{
-		this.value = 0;
+		this.inputValue = 0;
+		this.outputValue = 0;
+		this.changed = true;
 	}
 
-	public double getValue()
+	public double getInputValue()
 	{
-		return value;
+		return inputValue;
 	}
 
-	public void setValue(double value)
+	public double getOutputValue()
 	{
-		this.value = value;
+		if(changed)
+		{
+			outputValue = Util.sigmoidFunction(inputValue);
+			changed = false;
+		}
+		return outputValue;
 	}
 
-	public boolean isActivated()
+	public void setInputValue(double value)
 	{
-		/* codigo para determinar si esta activada aca*/
-
-		//pasa siempre por ahora
-		return true;
+		this.inputValue = value;
+		changed = true;
 	}
 }
