@@ -48,7 +48,7 @@ public class LayerBridge
 			for (int j=0; j < this.layer2.neurons.length ; j++)
 			{
 				double delta = this.layer2.neurons[j].getBpval() * this.layer2.neurons[i].getPartialDerivate();
-				this.layer1.neurons[i].setBpvalue(delta);
+				this.layer1.neurons[i].setBpvalue(delta*this.weights[i][j]);
 				this.weights[i][j] -= lrate * delta * this.layer1.neurons[i].getOutputValue();		
 			}	
 		}	
