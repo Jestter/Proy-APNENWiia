@@ -41,7 +41,7 @@ public class Neuron implements Serializable
 		this.bpval = val;
 	}
 
-	public void getBpval()
+	public double getBpval()
 	{
 		return this.bpval;
 	}

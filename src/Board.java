@@ -26,32 +26,32 @@ public class Board {
 
 	/// Constants to make the code understandable
 
-	public static final int BOARDSIZE=8;	/// The size of the board
+	static final int BOARDSIZE=8;	/// The size of the board
 
-	public static final int EMPTY=0;	/// An empty square
+	static final int EMPTY=0;	/// An empty square
 
 	/// Piece representations
-	public static final int BLACK_KING=-6;
-	public static final int WHITE_KING=6;
+	static final int BLACK_KING=-6;
+	static final int WHITE_KING=6;
 
-	public static final int BLACK_QUEEN=-5;
-	public static final int WHITE_QUEEN=5;
+	static final int BLACK_QUEEN=-5;
+	static final int WHITE_QUEEN=5;
 
-	public static final int BLACK_PAWN=-1;
-	public static final int WHITE_PAWN=1;
+	static final int BLACK_PAWN=-1;
+	static final int WHITE_PAWN=1;
 
-	public static final int BLACK_BISHOP=-3;
-	public static final int WHITE_BISHOP=3;
+	static final int BLACK_BISHOP=-3;
+	static final int WHITE_BISHOP=3;
 	
-	public static final int BLACK_KNIGHT=-2;
-	public static final int WHITE_KNIGHT=2;
+	static final int BLACK_KNIGHT=-2;
+	static final int WHITE_KNIGHT=2;
 
-	public static final int BLACK_ROOK=-4;
-	public static final int WHITE_ROOK=4;
+	static final int BLACK_ROOK=-4;
+	static final int WHITE_ROOK=4;
 	
 		
-	public static final int TURNBLACK=-1; 	/// Black turn is -1, White turn is 1 (corresponds to the sign of the pieces)
-	public static final int TURNWHITE=1;
+	static final int TURNBLACK=-1; 	/// Black turn is -1, White turn is 1 (corresponds to the sign of the pieces)
+	static final int TURNWHITE=1;
 
 	/**	Constructor with default values
 	**/
@@ -149,14 +149,6 @@ public class Board {
 	**/
 	public void setTurn(int turn) {
 		this.turn=turn;
-	}
-
-
-	/**	Set movestodraw
-	**	@param moves to draw the match
-	**/
-	public void setMovesToDraw(int mtd) {
-		this.movestodraw=mtd;
 	}
 
 
@@ -592,8 +584,10 @@ public class Board {
 		for (Coord c : pieces) 
 		{
 			Move[] piecemoves=getPieceMoves(c,turn);
-			for (Move m : piecemoves) 
+			for (Move m : piecemoves) {
 				if (validateMove(m)) moves.add(m);	
+				
+				}
 		}
 		
 		return vectorToMove(moves);
@@ -602,8 +596,9 @@ public class Board {
 	public boolean validMove(Move m) 
 	{
 		Move[] ms=getValidMoves();	
-		for (int i=0; i<ms.length; i++) 
-		  if (ms[i].equals(m)) return true;
+		for (int i=0; i<ms.length; i++) {
+		  if (ms[i].equalsWithoutPromotion(m)) return true;
+		}  
 		return false;
 	}
 
@@ -618,8 +613,6 @@ public class Board {
 			c=getThreats(pos, whitePieces, TURNWHITE);
 		else 
 			c=getThreats(pos, blackPieces, TURNBLACK);
-		//for (Coord threat:c) 
-		//	System.out.println(threat);
 		if (c!=null && c.length >0) return true;
 		else return false;
 	}
@@ -670,9 +663,9 @@ public class Board {
 
 			
 			//if the king has no legal moves, and no ally can block the check, then it is checkmate
-			if (m.length==0) {
+			if (m.length==0) 
 				return !canBlock(pieces, king, c[0]);
-			}			
+						
 			
 		}
 		

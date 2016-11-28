@@ -1,4 +1,3 @@
-
 import java.util.Comparator;
 public class Move implements Comparator {
 	Coord src;
@@ -158,6 +157,24 @@ public class Move implements Comparator {
 		}
 		return false;
 	}
+	
+	public boolean equalsWithoutPromotion(Object o) {
+		if (o instanceof Move) {
+			Move m=(Move)o;
+			boolean same;
+			if (m.getSrc()==null && src!=null) return false;
+			if (m.getDest()==null && dest!=null) return false;
+			if (m.getDest()!=null && dest==null) return false;
+			if (m.getSrc()!=null && src==null) return false;
+
+
+			if (  ((src==null && m.getSrc()==null && dest==null && m.getDest()==null) || (src.equals(m.getSrc()) && dest.equals(m.getDest()) ) ) && shortcastle==m.getShortCastle() && longcastle==m.getLongCastle()) return true;
+		}
+		return false;
+	}
+	
+	
+	
 	
 	public Coord getDest() {
 		return dest;

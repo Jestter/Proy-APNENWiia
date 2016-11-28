@@ -1,6 +1,6 @@
 /***************************************************************************
- *   Copyright (C) 2008 by Matthew Bardeen   *
- *   me@mbardeen.net   *
+ *   Copyright (C) 2009 by Matthew Bardeen   *
+ *   mbardeen@utalca.cl   *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -17,42 +17,11 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-public class Agent {
-	public String group;
-	public String command;
-	public int wins;
-	public int losses;
-	public int draws;
+public abstract class Heuristic
+{
 	
-	Agent(String g, String c) {
-		group=g;
-		command=c;
-		wins=0;
-		losses=0;
-		draws=0;
-		
-	}
-
-	public void addWin() {
-		wins++;
-	}
-
-	public void addDraw() {
-		draws++;
-	}
-
-	public void addLoss() {
-		losses++;
-	}
-
-	public String toString() {
-		String s=group;
-		return s;
-		
-	}
-
-	public String getCommand() {
-		return command;
-	}
+	/**
+	    Takes a board and returns the heuristic value of the board
+	**/
+	public abstract int evaluate(Board b);
 }
-

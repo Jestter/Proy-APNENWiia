@@ -18,7 +18,7 @@ public class LayerBridge implements Serializable
 		{
 			for (int j=0;  j < layer2.neurons.length ; j++)
 			{
-				weights[i][j] = Math.random()*2-1;
+				weights[i][j] = (2*Math.random()-1)/2;
 			}	
 		}
 	}
@@ -46,11 +46,11 @@ public class LayerBridge implements Serializable
 	{
 		for (int i=0;i < this.layer1.neurons.length ; i++)
 		{
-			this.layer1.neurons[i].setBpvalue(0);
+			this.layer1.neurons[i].setBpval(0);
 			for (int j=0; j < this.layer2.neurons.length ; j++)
 			{
-				double delta = this.layer2.neurons[j].getBpval() * this.layer2.neurons[i].getPartialDerivate();
-				this.layer1.neurons[i].setBpvalue(this.layer1.neurons[i].getBpvalue() + delta*this.weights[i][j]);
+				double delta = this.layer2.neurons[j].getBpval() * this.layer2.neurons[j].getPartialDerivate();
+				this.layer1.neurons[i].setBpval(this.layer1.neurons[i].getBpval() + delta*this.weights[i][j]);
 				this.weights[i][j] -= lrate * delta * this.layer1.neurons[i].getOutputValue();		
 			}	
 		}	

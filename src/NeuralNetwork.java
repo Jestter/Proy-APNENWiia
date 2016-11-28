@@ -1,6 +1,6 @@
 /***************************************************************************
- *   Copyright (C) 2008 by Matthew Bardeen   *
- *   me@mbardeen.net   *
+ *   Copyright (C) 2009 by Matthew Bardeen   *
+ *   mbardeen@utalca.cl   *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -17,42 +17,38 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-public class Agent {
-	public String group;
-	public String command;
-	public int wins;
-	public int losses;
-	public int draws;
+import java.util.ArrayList;
+import java.io.File;
+
+public class NeuralNetwork extends Heuristic
+{
+	private static final String networkPath = "TDNetwork.nn";
+	private Network network;
+
+	public NeuralNetwork()
+	{
+		File f = new File(networkPath);
+		if(!f.exists())
+		{ 
+		 	network = new Network(2,new int[]{256,256},new double[]{0,0},0.03);
+		}
+		else
+		{
+			network = (Network)Util.loadObject(networkPath);
+		}
+
+		if(network == null)
+		{
+			network = new Network(2,new int[]{256,256},new double[]{0,0},0.03);
+		}
+	}
 	
-	Agent(String g, String c) {
-		group=g;
-		command=c;
-		wins=0;
-		losses=0;
-		draws=0;
-		
+	/**
+	    Takes a board and returns the heuristic value of the board
+	**/
+	public int evaluate(Board inb) 
+	{
+	   return (int)(100*(this.network.evaluate(inb)*2-1));
 	}
 
-	public void addWin() {
-		wins++;
-	}
-
-	public void addDraw() {
-		draws++;
-	}
-
-	public void addLoss() {
-		losses++;
-	}
-
-	public String toString() {
-		String s=group;
-		return s;
-		
-	}
-
-	public String getCommand() {
-		return command;
-	}
 }
-
