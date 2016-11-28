@@ -41,8 +41,16 @@ public class LayerBridge
 	/*
 		Para ajustar los pesos con backprop
 	*/
-	public void propagateBackward()
+	public void propagateBackward(double lrate)
 	{
-			
+		for (int i=0;i < this.layer1.neurons.length ; i++)
+		{
+			for (int j=0; j < this.layer2.neurons.length ; j++)
+			{
+				double delta = this.layer2.neurons[j].getBpval() * this.layer2.neurons[i].getPartialDerivate();
+				this.layer1.neurons[i].setBpvalue(delta);
+				this.weights[i][j] -= lrate * delta * this.layer1.neurons[i].getOutputValue();		
+			}	
+		}	
 	}
 }

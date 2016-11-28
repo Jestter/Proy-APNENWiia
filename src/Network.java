@@ -6,9 +6,11 @@ public class Network
 	LayerBridge[] bridges;
 	Layer initLayer;
 	Neuron output;
+	double learningRate;
 
-	public Network(int hiddenLayers,int[] neuronsForLayer,double[] biasForLayer)
+	public Network(int hiddenLayers,int[] neuronsForLayer,double[] biasForLayer, double learningRate)
 	{
+		this.learningRate = learningRate;
 		//se crea la primera capa(64 neuronas para representar tablero) y la ultima (1 neurona)
 		this.output = new Neuron();
 		Neuron[] initLayerNeurons = new Neuron[64];
@@ -63,13 +65,22 @@ public class Network
 		return output.getValue();
 	}
 
-	public double train(Board board, double trueValue)
+	public void train(Board board, double targetValue)
 	{
-		double currVal = evaluate(board);
+		double outputVal = evaluate(board);
 
 		//calcular error
+		double totalError = 0.5*(targetValue - outputVal)*(targetValue - outputVal);
 
 		//usar propagateBackward (backpropagation) para propagarlo
+
+		this.output.setBpval(-(totalError));
+
+		for (int i = bridges.length-1; i >= 0 ; i--)
+		{
+			bridges[i].propagateBackward();	
+		}
+
 	}
 
 
