@@ -78,7 +78,7 @@ public class Network
 
 		for (int i = bridges.length-1; i >= 0 ; i--)
 		{
-			bridges[i].propagateBackward();	
+			bridges[i].propagateBackward(this.learningRate);	
 		}
 
 	}
