@@ -75,7 +75,7 @@ public class Network implements Serializable
 
 		//usar propagateBackward (backpropagation) para propagarlo
 
-		this.output.setBpval(-(totalError));
+		this.output.setBpval(-(targetValue - outputVal));
 
 		for (int i = bridges.length-1; i >= 0 ; i--)
 		{
