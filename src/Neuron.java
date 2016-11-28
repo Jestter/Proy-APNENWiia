@@ -1,6 +1,6 @@
+import java.io.Serializable;
 
-
-public class Neuron
+public class Neuron implements Serializable
 {
 
 	private double inputValue;

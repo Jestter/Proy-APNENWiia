@@ -1,5 +1,6 @@
+import java.io.Serializable;
 
-public class Layer
+public class Layer implements Serializable
 {
 	public Neuron[] neurons;
 	public double bias;

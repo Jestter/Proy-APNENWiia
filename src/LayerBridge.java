@@ -1,6 +1,7 @@
 import java.lang.Math;
+import java.io.Serializable;
 
-public class LayerBridge
+public class LayerBridge implements Serializable
 {
 
 	double[][] weights;

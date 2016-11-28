@@ -1,6 +1,7 @@
 import java.util.*;
+import java.io.Serializable;
 
-public class Network
+public class Network implements Serializable
 {
 
 	LayerBridge[] bridges;
