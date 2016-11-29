@@ -4,7 +4,7 @@ import java.util.*;
 public class Trainer
 {
 	public static String TRAININGANGENT ="java HotSingleAgent 2";
-	public static String ENEMY ="java RandomAgent";
+	public static String ENEMY ="java HotSingleAgent 2";
 
 	public static final double LAMBDA = 0.5;
 
@@ -43,10 +43,16 @@ public class Trainer
 			}
 
 			System.out.println("learnValue = "+learnValue);
-
+			learnValue = (learnValue+1)/2;
+			Network net = (Network)Util.loadObject("TDNetwork.nn");
+			if(net == null)
+			{
+				net = new Network(2,new int[]{256,256},new double[]{0,0},0.03);
+			}
 			ArrayList<String> bseq = (ArrayList<String>)Util.loadObject("boardSequence.train");
 			if(bseq!=null)for (int l = bseq.size()-1; l >= 0 ; l--) 
 			{
+				//System.out.println("training board: "+bseq.get(l));
 				int[][] board = new int[8][8];
 				boolean readOK = true;
 				Board b=new Board();
@@ -81,17 +87,12 @@ public class Trainer
 
 				if(readOK)
 				{
-					Network net = (Network)Util.loadObject("TDNetwork.nn");
-					if(net == null)
-					{
-						net = new Network(2,new int[]{256,256},new double[]{0,0},0.03);
-					}
-					net.train(b, ((learnValue+1)/2));
+					net.train(b, learnValue);
 					//TD lambda training :D
-					learnValue = LAMBDA * learnValue + (1 - LAMBDA) * (net.evaluate(b)*2-1);
-					Util.saveObject(net,"TDNetwork.nn");
+					learnValue = LAMBDA * learnValue + (1 - LAMBDA) * (net.evaluate(b));
 				}
 			}
+			Util.saveObject(net,"TDNetwork.nn");
 			System.out.println("Removing boardSequence.");
 			File f = new File("boardSequence.train");
 			if(f.delete()){System.out.println("Removed.");}

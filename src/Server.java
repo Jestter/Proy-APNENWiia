@@ -135,9 +135,9 @@ public class Server {
 				{
 					ArrayList<String> bseq = (ArrayList<String>)Util.loadObject("boardSequence.train");
 					if(bseq == null) bseq = new ArrayList<String>();
-					bseq.add("move"+(currentmove+1)+".tbl");
+					bseq.add("move"+(currentmove)+".tbl");
 					Util.saveObject(bseq,"boardSequence.train");
-					boardToFile(b, "move"+(currentmove+1)+".tbl");
+					boardToFile(b, "move"+(currentmove)+".tbl");
 					
 				}
 				/*
