@@ -4,13 +4,20 @@ import java.util.*;
 public class Trainer
 {
 	public static String TRAININGANGENT ="java HotSingleAgent 2";
-	public static String ENEMY ="java HotSingleAgent 2";
+	public static String ENEMY ="java IDSAgent 2";
 
 	public static final double LAMBDA = 0.5;
+
+	public int won;
+	public int lost;
+	public int draws;
 
 	//This is the trainer class, it trains the NN with TD method. Please especify the enemy agent above :p
 	public Trainer(int iter)
 	{
+		won = 0;
+		lost = 0;
+		draws = 0;
 		for (int i=0; i < iter ; i++)
 		{
 			System.out.println("Iteration: "+ (i+1));
@@ -38,9 +45,10 @@ public class Trainer
 			double learnValue = 0;
 			if(!s.draw)
 			{
-				if(s.winner == Server.AGENT0) learnValue = 1;
-				else learnValue = -1;
+				if(s.winner == Server.AGENT0) {learnValue = 1;won++;}
+				else {learnValue = -1;lost++;}
 			}
+			else draws++;
 
 			System.out.println("learnValue = "+learnValue);
 			learnValue = (learnValue+1)/2;
@@ -50,53 +58,56 @@ public class Trainer
 				net = new Network(2,new int[]{256,256},new double[]{0,0},0.03);
 			}
 			ArrayList<String> bseq = (ArrayList<String>)Util.loadObject("boardSequence.train");
-			if(bseq!=null)for (int l = bseq.size()-1; l >= 0 ; l--) 
+			if(bseq!=null)
 			{
-				//System.out.println("training board: "+bseq.get(l));
-				int[][] board = new int[8][8];
-				boolean readOK = true;
-				Board b=new Board();
-				try 
+				for (int l = bseq.size()-1; l >= 0 ; l--) 
 				{
-					BufferedReader input =   new BufferedReader(new FileReader(bseq.get(l)));
-					for (int i=0; i<8; i++) {
-						String line=input.readLine();
-						String[] pieces=line.split("\\s");
-						for (int j=0; j<8; j++) {
-							board[i][j]=Integer.parseInt(pieces[j]);
+					//System.out.println("training board: "+bseq.get(l));
+					int[][] board = new int[8][8];
+					boolean readOK = true;
+					Board b=new Board();
+					try 
+					{
+						BufferedReader input =   new BufferedReader(new FileReader(bseq.get(l)));
+						for (int i=0; i<8; i++) {
+							String line=input.readLine();
+							String[] pieces=line.split("\\s");
+							for (int j=0; j<8; j++) {
+								board[i][j]=Integer.parseInt(pieces[j]);
+							}
 						}
+						String turn=input.readLine();
+						b.fromArray(board);
+						if (turn.equals("N")) b.setTurn(b.TURNBLACK);
+						else b.setTurn(b.TURNWHITE);
+						b.setShortCastle(b.TURNWHITE,false);
+						b.setLongCastle(b.TURNWHITE,false);
+						b.setShortCastle(b.TURNBLACK,false);
+						b.setLongCastle(b.TURNBLACK,false);
+					
+						String st=input.readLine();
+						while (st!=null) {
+							if (st.equals("EnroqueC_B")) b.setShortCastle(b.TURNWHITE,true);
+							if (st.equals("EnroqueL_B")) b.setLongCastle(b.TURNWHITE,true);
+							if (st.equals("EnroqueC_N")) b.setShortCastle(b.TURNBLACK,true);
+							if (st.equals("EnroqueL_N")) b.setLongCastle(b.TURNBLACK,true);
+							st=input.readLine();
 					}
-					String turn=input.readLine();
-					b.fromArray(board);
-					if (turn.equals("N")) b.setTurn(b.TURNBLACK);
-					else b.setTurn(b.TURNWHITE);
-					b.setShortCastle(b.TURNWHITE,false);
-					b.setLongCastle(b.TURNWHITE,false);
-					b.setShortCastle(b.TURNBLACK,false);
-					b.setLongCastle(b.TURNBLACK,false);
-				
-					String st=input.readLine();
-					while (st!=null) {
-						if (st.equals("EnroqueC_B")) b.setShortCastle(b.TURNWHITE,true);
-						if (st.equals("EnroqueL_B")) b.setLongCastle(b.TURNWHITE,true);
-						if (st.equals("EnroqueC_N")) b.setShortCastle(b.TURNBLACK,true);
-						if (st.equals("EnroqueL_N")) b.setLongCastle(b.TURNBLACK,true);
-						st=input.readLine();
-				}
-				} catch (Exception e) {readOK = false;}
+					} catch (Exception e) {readOK = false;}
 
-				if(readOK)
-				{
-					net.train(b, learnValue);
-					//TD lambda training :D
-					learnValue = LAMBDA * learnValue + (1 - LAMBDA) * (net.evaluate(b));
+					if(readOK)
+					{
+						net.train(b, learnValue);
+						//TD lambda training :D
+						learnValue = LAMBDA * learnValue + (1 - LAMBDA) * (net.evaluate(b));
+					}
 				}
 			}
 			Util.saveObject(net,"TDNetwork.nn");
 			System.out.println("Removing boardSequence.");
 			File f = new File("boardSequence.train");
 			if(f.delete()){System.out.println("Removed.");}
-			System.out.println("Training Done!");
+			System.out.println("Training Done! won:"+won+" draws:"+draws+" lost:"+lost);
 		}
 
 	}
