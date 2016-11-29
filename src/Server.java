@@ -23,7 +23,9 @@ public class Server {
 
 	
 	public Agent[] agent;
+	public int trainNumber;
 
+	private ArrayList<String> boardFiles;
 
 	Process currentProcess;
 
@@ -39,6 +41,8 @@ public class Server {
 		currentagent=NOBODY;
 		draw=false;
 		agent=new Agent[10];
+		trainNumber = 0;
+		boardFiles = new ArrayList<String>();
 	}
 
 	public int nextAgent() {
@@ -67,7 +71,7 @@ public class Server {
 	
 	/** Run a game between two agents.
 	**/
-	public String runGame(Agent agent1, Agent agent2) {
+	public int runGame(Agent agent1, Agent agent2) {
 		//choose randomly which agent goes first
 
 		//create a new board
@@ -104,10 +108,10 @@ public class Server {
 					*/
 					if(currentagent == AGENT0)
 					{
-						ArrayList<String> bseq = (ArrayList<String>)Util.loadObject("boardSequence.train");
+						ArrayList<String> bseq = (ArrayList<String>)Util.loadObject("boardSequence"+trainNumber+".train");
 						if(bseq == null) bseq = new ArrayList<String>();
-						bseq.add("move"+(currentmove+1)+".tbl");
-						Util.saveObject(bseq,"boardSequence.train");
+						bseq.add(b.toString());
+						Util.saveObject(bseq,"boardSequence"+trainNumber+".train");
 					}
 					/*
 						end of Training code
@@ -127,23 +131,6 @@ public class Server {
 				//System.out.println(b);
 				//System.out.println("Checkmate");
 				//System.out.println(agents[nextAgent()] + " has won!");
-
-				/*
-					start of Training code (Comment for competition mode)
-				*/
-				if(currentagent == AGENT1)
-				{
-					ArrayList<String> bseq = (ArrayList<String>)Util.loadObject("boardSequence.train");
-					if(bseq == null) bseq = new ArrayList<String>();
-					bseq.add("move"+(currentmove)+".tbl");
-					Util.saveObject(bseq,"boardSequence.train");
-					boardToFile(b, "move"+(currentmove)+".tbl");
-					
-				}
-				/*
-					end of Training code
-				*/
-
 				agents[nextAgent()].addWin();
 				agents[currentagent].addLoss();
 				draw=false;
@@ -152,7 +139,9 @@ public class Server {
 			currentagent=nextAgent();
 			currentmove++;
 		};
-		return record;
+
+		deleteBoards();
+		return currentmove;
 	}
 
 
@@ -161,7 +150,7 @@ public class Server {
 	**/
 	public Move getMove(Agent agent, int turn, Board b, int currentmove) {
 		//write the current board to a file
-		String movefile="move"+currentmove+".tbl";
+		String movefile= trainNumber+"move"+currentmove+".tbl";
 		Move move=new Move();
 		Timer t=new Timer();
 		Runtime r=Runtime.getRuntime();
@@ -206,8 +195,18 @@ public class Server {
      		   	BufferedWriter out = new BufferedWriter(new FileWriter(filename));
         	  	out.write(currentboard.toString());
         		out.close();
+        		boardFiles.add(filename);
     		} catch (IOException e) {
     		}
+	}
+
+	public void deleteBoards()
+	{
+		for(String filename: boardFiles)
+		{
+			File f = new File(filename);
+			f.delete();
+		}
 	}
 
 	public void runTournament() {
