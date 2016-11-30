@@ -15,6 +15,7 @@ public class Trainer
 	public int draws;
 	public Semaphore currThreads;
 	public Semaphore networkFileLock;
+	public Semaphore copySequence;
 	//This is the trainer class, it trains the NN with TD method. Please especify the enemy agent above :p
 	public Trainer(int iter, int maxThreads)
 	{
@@ -30,8 +31,10 @@ public class Trainer
 		draws = 0;
 		currThreads = new Semaphore(maxThreads);
 		networkFileLock = new Semaphore(1);
+		copySequence = new Semaphore(1);
 		for (int i=0; i < iter ; i++)
 		{
+			while(currThreads.getQueueLength() >= 4);
 			new Thread(new TrainingInstance(i+1)).start();
 		}
 	}
@@ -120,7 +123,7 @@ public class Trainer
 		{
 			new Trainer(Integer.parseInt(args[1]), Integer.parseInt(args[2]));
 		}
-		else
+		else if(args[0].equals("batch"))
 		{
 			System.out.println("Starting Batch Training using folder "+args[2]);
 			new Trainer(Integer.parseInt(args[1]), args[2]);
@@ -161,9 +164,11 @@ public class Trainer
 
 				try
 				{
+					copySequence.acquire();
 					Path path1 = new File("boardSequence"+trainNumber+".train").toPath();
 					Path path2 = new File(searchNewFileName(folder+"/"+totalMoves+"boardSequence","train")).toPath();
 					Files.copy(path1, path2, StandardCopyOption.REPLACE_EXISTING);
+					copySequence.release();
 				}catch(Exception ex){ex.printStackTrace();}
 
 				System.out.println("Training "+trainNumber+": "+"learnValue = "+learnValue);
