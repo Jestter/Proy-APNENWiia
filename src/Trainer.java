@@ -2,11 +2,12 @@ import java.io.*;
 import java.nio.file.*;
 import java.util.*;
 import java.util.concurrent.*;
+import java.lang.Math;
 
 public class Trainer
 {
 	public static String TRAININGANGENT ="java HotSingleAgent 2";
-	public static String ENEMY ="java IDSAgent 2";
+	public String[] enemies = {"java HotSingleAgent 2","java RandomAgent","java IDSAgent 2","java IDSAgent 1"};
 
 	public static final double LAMBDA = 0.5;
 
@@ -19,12 +20,12 @@ public class Trainer
 	//This is the trainer class, it trains the NN with TD method. Please especify the enemy agent above :p
 	public Trainer(int iter, int maxThreads)
 	{
-		File dir = new File("wins");
+		/*File dir = new File("wins");
 		if(!dir.exists())dir.mkdir();
 		dir = new File("draws");
 		if(!dir.exists())dir.mkdir();
 		dir = new File("lost");
-		if(!dir.exists())dir.mkdir();
+		if(!dir.exists())dir.mkdir();*/
 
 		won = 0;
 		lost = 0;
@@ -148,9 +149,10 @@ public class Trainer
 				Server s = new Server();
 				s.trainNumber = this.trainNumber;
 				Agent A1 =new Agent("Training Agent", TRAININGANGENT);
-				Agent A2 =new Agent("Oponent", ENEMY);
+				int enemyID = (int)(enemies.length*Math.random());
+				Agent A2 =new Agent("Oponent", enemies[enemyID]);
 
-				System.out.println("Training "+trainNumber+": "+"init GAME!");
+				System.out.println("Training "+trainNumber+": "+"init GAME! vs "+ enemies[enemyID].replace("java ",""));
 				int totalMoves = s.runGame(A1, A2);
 				System.out.println("Training "+trainNumber+": "+"init Training");
 				double learnValue = 0;
@@ -162,14 +164,14 @@ public class Trainer
 				}
 				else draws++;
 
-				try
+				/*try
 				{
 					copySequence.acquire();
 					Path path1 = new File("boardSequence"+trainNumber+".train").toPath();
 					Path path2 = new File(searchNewFileName(folder+"/"+totalMoves+"boardSequence","train")).toPath();
 					Files.copy(path1, path2, StandardCopyOption.REPLACE_EXISTING);
 					copySequence.release();
-				}catch(Exception ex){ex.printStackTrace();}
+				}catch(Exception ex){ex.printStackTrace();}*/
 
 				System.out.println("Training "+trainNumber+": "+"learnValue = "+learnValue);
 

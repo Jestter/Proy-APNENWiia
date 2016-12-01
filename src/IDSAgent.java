@@ -25,7 +25,7 @@ public class IDSAgent {
 	
 	public int algorithm; 		/// which algorithm to use in the search
 	
-	static final int MAXDEPTH=4; 	/// How deep we will search without limits
+	static final int MAXDEPTH=6; 	/// How deep we will search without limits
 	static final int MINIMAX=1;	/// Do a minimax search
 	static final int ALPHABETA=2; 	/// Do a minimax search with alpha-beta pruning
 	static final int INFINITY=99999999;
