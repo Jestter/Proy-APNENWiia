@@ -7,7 +7,7 @@ import java.lang.Math;
 public class Server {
 
 	/********* CHANGE THIS TO THE COMMAND TO RUN YOUR AGENT ********/
-	public static String AGENT1COMMAND="java Aggent 2";
+	public static String AGENT1COMMAND="java HotSingleAgent 2";
 
 
 
@@ -24,6 +24,8 @@ public class Server {
 	
 	public Agent[] agent;
 	public int trainNumber;
+
+	public boolean comments;
 
 	private ArrayList<String> boardFiles;
 
@@ -42,6 +44,7 @@ public class Server {
 		draw=false;
 		agent=new Agent[10];
 		trainNumber = 0;
+		comments = false;
 		boardFiles = new ArrayList<String>();
 	}
 
@@ -61,7 +64,7 @@ public class Server {
 			currentProcess.destroy();
 			gameover=true;
 			winner=nextAgent();
-			//System.out.println("Time out");
+			if(comments)System.out.println("Time out");
 			
 		}
 
@@ -89,16 +92,16 @@ public class Server {
 			
 			if (!b.isStalemate() && !b.isCheckMate()) {
 				move=getMove(agents[currentagent],currentagent, b, currentmove);
-				//System.out.println(b);
-				//System.out.println("Move: "+move);
+				if(comments)System.out.println(b);
+				if(comments)System.out.println("Move: "+move);
 				if (!b.validMove(move)) {
 					
 					gameover=true;
 					winner=nextAgent();
 					agents[winner].addWin();
 					agents[currentagent].addLoss();
-					//System.out.println(agents[currentagent] + " tried to play an invalid move.");
-					//System.out.println(agents[winner] + " wins the game.");
+					if(comments)System.out.println(agents[currentagent] + " tried to play an invalid move.");
+					if(comments)System.out.println(agents[winner] + " wins the game.");
 				}
 				else
 				{
@@ -117,10 +120,10 @@ public class Server {
 						end of Training code
 					*/
 				}
-			//	//System.out.println(b);
+			//	if(comments)System.out.println(b);
 			} else if (b.isStalemate()) {
-				//System.out.println(b);
-				//System.out.println("Stalemate");
+				if(comments)System.out.println(b);
+				if(comments)System.out.println("Stalemate");
 				winner=NOBODY;
 				loser=NOBODY;
 				agents[nextAgent()].addDraw();
@@ -128,9 +131,9 @@ public class Server {
 				draw=true;
 				gameover=true;
 			} else if (b.isCheckMate()) {
-				//System.out.println(b);
-				//System.out.println("Checkmate");
-				//System.out.println(agents[nextAgent()] + " has won!");
+				if(comments)System.out.println(b);
+				if(comments)System.out.println("Checkmate");
+				if(comments)System.out.println(agents[nextAgent()] + " has won!");
 				agents[nextAgent()].addWin();
 				agents[currentagent].addLoss();
 				draw=false;
@@ -164,9 +167,9 @@ public class Server {
 			//run the agent
 			boardToFile(b, movefile);
 			String execstring=agent.getCommand()+" "+movefile+" "+timelimit;
-			//System.out.println("---------");
-			//System.out.println("Turn:"+agent);
-			//System.out.println(execstring);
+			if(comments)System.out.println("---------");
+			if(comments)System.out.println("Turn:"+agent);
+			if(comments)System.out.println(execstring);
 			currentProcess=r.exec(execstring);
 			
 			//wait for the execution to complete or cancel. If it ends prior, then cancel the timer.
@@ -178,10 +181,10 @@ public class Server {
 			else turnmod=-1;
 			movestring=input.readLine();
 			if (!move.fromString(movestring,turnmod));
-			   ////System.out.println("Invalid Move. Agent said:" + movestring);
+			   //if(comments)System.out.println("Invalid Move. Agent said:" + movestring);
 			input.close();
     		} catch (NullPointerException name) {
-			//System.out.println("Invalid Move: " + movestring);
+			if(comments)System.out.println("Invalid Move: " + movestring);
 		} catch (Exception name) {
 		}
 		t.cancel();
@@ -213,8 +216,8 @@ public class Server {
 		for (int i=0; i<agent.length; i++) {
 			for (int j=0; j<agent.length; j++) {
 				if (i!=j) {
-					//System.out.println("---------------"+agent[i]+ " vs. "+agent[j]+"---------------");
-					//System.out.println(runGame(agent[i], agent[j]));
+					if(comments)System.out.println("---------------"+agent[i]+ " vs. "+agent[j]+"---------------");
+					if(comments)System.out.println(runGame(agent[i], agent[j]));
 					
 				}
 			}
@@ -224,7 +227,7 @@ public class Server {
 
 	public static void main(String[] args){
 		Server s=new Server();
-		s.agent[0]=new Agent("Random", RANDOMAGENTCOMMAND);
+		s.agent[0]=new Agent("AnotherAgent", RANDOMAGENTCOMMAND);
 		s.agent[1]=new Agent("HotSingleAggentInTheTourney", AGENT1COMMAND);
 		/*
 		String path="/home/mbardeen/school/Teaching/IA/ICC-2008/Tournament";
@@ -241,11 +244,12 @@ public class Server {
 		s.agent[8]=new Agent("7199","java -classpath 7199 Ajedrez");
 		s.agent[9]=new Agent("8030",path+"/petrix");
 		*/
-		//System.out.println(s.runGame(s.agent[0], s.agent[1]));
+		s.comments = true;
+		s.runGame(s.agent[0], s.agent[1]);
 		//s.runTournament();
 
 		//for (int i=0; i< s.agent.length; i++)
-		//	//System.out.println(s.agent[i] + " --- Wins:"+s.agent[i].wins + " Draws:" +s.agent[i].draws +" Losses:"+s.agent[i].losses);
+		//System.out.println(s.agent[i] + " --- Wins:"+s.agent[i].wins + " Draws:" +s.agent[i].draws +" Losses:"+s.agent[i].losses);
 
 	}
 }

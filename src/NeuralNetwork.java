@@ -35,6 +35,14 @@ public class NeuralNetwork extends Heuristic
 		else
 		{
 			network = (Network)Util.loadObject(networkPath);
+			
+			int tries = 5;
+			while(network == null && tries != 0)
+			{
+				try{Thread.sleep(100);}catch(Exception ex){}
+				network = (Network)Util.loadObject(networkPath);
+				tries--;
+			}
 		}
 
 		if(network == null)

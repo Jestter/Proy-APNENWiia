@@ -7,12 +7,13 @@ import java.lang.Math;
 public class Trainer
 {
 	public static String TRAININGANGENT ="java HotSingleAgent 2";
-	public String[] enemies = {"java HotSingleAgent 2","java RandomAgent","java IDSAgent 2","java IDSAgent 1"};
+	public String[] enemies = {/*"java HotSingleAgent 2","java RandomAgent",*/"java IDSAgent 2","java IDSAgent 1"};
 
 	public static final double LAMBDA = 0.5;
 
 	public int won;
 	public int lost;
+	public int lostHimself;
 	public int draws;
 	public Semaphore currThreads;
 	public Semaphore networkFileLock;
@@ -20,15 +21,16 @@ public class Trainer
 	//This is the trainer class, it trains the NN with TD method. Please especify the enemy agent above :p
 	public Trainer(int iter, int maxThreads)
 	{
-		/*File dir = new File("wins");
+		File dir = new File("wins");
 		if(!dir.exists())dir.mkdir();
 		dir = new File("draws");
 		if(!dir.exists())dir.mkdir();
 		dir = new File("lost");
-		if(!dir.exists())dir.mkdir();*/
+		if(!dir.exists())dir.mkdir();
 
 		won = 0;
 		lost = 0;
+		lostHimself = 0;
 		draws = 0;
 		currThreads = new Semaphore(maxThreads);
 		networkFileLock = new Semaphore(1);
@@ -41,13 +43,14 @@ public class Trainer
 	}
 
 	//Constructor for batch training using one of the folders: wins,lost,draws.
-	public Trainer(int iter,String dir)
+	public Trainer(int iter,String dir,double value)
 	{
-		double constLearnValue = dir.equals("wins")?1:(dir.equals("lost")?-1:0);
+		double constLearnValue = value;
 		System.out.println("learning: "+constLearnValue);
 		File dirf = new File(dir);
 		int totalfiles = dirf.listFiles().length;
 		int counter = 1;
+		HashSet<ArrayList<String>> filesSet = new HashSet<ArrayList<String>>();
 		for (File f: dirf.listFiles())
 		{
 			//System.out.print("*");
@@ -57,8 +60,10 @@ public class Trainer
 				net = new Network(2,new int[]{256,256},new double[]{0,0},0.03);
 			}
 			ArrayList<String> bseq = (ArrayList<String>)Util.loadObject(f.getAbsolutePath());
-			if(bseq!=null)
+			if(filesSet.contains(bseq)) System.out.println("Skipping "+ f.getName());
+			if(bseq!=null && !filesSet.contains(bseq))
 			{
+				filesSet.add(bseq);
 				for (int ii=0; ii < iter ; ii++) 
 				{
 					double learnValue = constLearnValue;
@@ -113,11 +118,11 @@ public class Trainer
 	}
 
 	public static void main(String[] args) {
-		if(args.length < 3 || args.length > 3)
+		if(args.length < 3 || args.length > 4)
 		{
 			System.out.println("argumentos invalidos. ingrese:");
 			System.out.println("\tjava Trainer standard <iteraciones> <num de threads>");
-			System.out.println("\tjava Trainer batch <iteraciones> <carpeta>");
+			System.out.println("\tjava Trainer batch <iteraciones> <carpeta> <valor>");
 			return;
 		}
 		if(args[0].equals("standard"))
@@ -127,7 +132,7 @@ public class Trainer
 		else if(args[0].equals("batch"))
 		{
 			System.out.println("Starting Batch Training using folder "+args[2]);
-			new Trainer(Integer.parseInt(args[1]), args[2]);
+			new Trainer(Integer.parseInt(args[1]), args[2], Double.parseDouble(args[3]));
 		}
 	}
 
@@ -160,18 +165,19 @@ public class Trainer
 				if(!s.draw)
 				{
 					if(s.winner == Server.AGENT0) {learnValue = 1;won++;folder = "wins";}
-					else {learnValue = -1;lost++;folder = "lost";}
+					else if(TRAININGANGENT != enemies[enemyID]){learnValue = -1;lost++;folder = "lost";}
+					else {learnValue = -1;lostHimself++;folder = "lost";}
 				}
 				else draws++;
 
-				/*try
+				try
 				{
 					copySequence.acquire();
 					Path path1 = new File("boardSequence"+trainNumber+".train").toPath();
 					Path path2 = new File(searchNewFileName(folder+"/"+totalMoves+"boardSequence","train")).toPath();
 					Files.copy(path1, path2, StandardCopyOption.REPLACE_EXISTING);
 					copySequence.release();
-				}catch(Exception ex){ex.printStackTrace();}*/
+				}catch(Exception ex){ex.printStackTrace();}
 
 				System.out.println("Training "+trainNumber+": "+"learnValue = "+learnValue);
 
@@ -179,6 +185,7 @@ public class Trainer
 				Network net = (Network)Util.loadObject("TDNetwork.nn");
 				if(net == null)
 				{
+					System.out.println("COULDNT READ: TDNetwork.nn");
 					net = new Network(2,new int[]{256,256},new double[]{0,0},0.03);
 				}
 				ArrayList<String> bseq = (ArrayList<String>)Util.loadObject("boardSequence"+trainNumber+".train");
@@ -227,14 +234,14 @@ public class Trainer
 						}
 					}
 				}
-				Util.saveObject(net,"TDNetwork.nn");
+				if(!Util.saveObject(net,"TDNetwork.nn")) System.out.println("Training "+trainNumber+": "+"ERROR: problema al guardar red.");
 
 				networkFileLock.release();
 
 				System.out.println("Training "+trainNumber+": "+"Removing boardSequence.");
 				File f = new File("boardSequence"+trainNumber+".train");
 				if(f.delete()){System.out.println("Training "+trainNumber+": "+"Removed.");}
-				System.out.println("Training "+trainNumber+": "+"Training Done! won:"+won+" draws:"+draws+" lost:"+lost);
+				System.out.println("Training "+trainNumber+": "+"Training Done! won:"+won+" draws:"+draws+" lost:"+lost+" lostHimself:"+lostHimself);
 				currThreads.release();
 			}catch(Exception ex){System.out.println("Training "+trainNumber+": "+"Interrupted Exception Thrown.");}
 		}

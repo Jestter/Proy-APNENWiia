@@ -1,0 +1,224 @@
+Iteration: 1
+Iteration: 3
+Iteration: 4
+Iteration: 5
+Training 3: init GAME! vs IDSAgent 2
+Training 5: init GAME! vs IDSAgent 2
+Training 1: init GAME! vs IDSAgent 2
+Training 4: init GAME! vs IDSAgent 2
+Training 3: init Training
+Training 3: learnValue = -1.0
+Training 3: Removing boardSequence.
+Training 3: Removed.
+Training 3: Training Done! won:0 draws:0 lost:1 lostHimself:0
+Iteration: 2
+Training 2: init GAME! vs IDSAgent 2
+Training 1: init Training
+Training 1: learnValue = -1.0
+Training 1: Removing boardSequence.
+Training 1: Removed.
+Training 1: Training Done! won:0 draws:0 lost:2 lostHimself:0
+Iteration: 7
+Training 7: init GAME! vs IDSAgent 1
+Training 4: init Training
+Training 4: learnValue = -1.0
+Training 4: Removing boardSequence.
+Training 4: Removed.
+Training 4: Training Done! won:0 draws:0 lost:3 lostHimself:0
+Iteration: 8
+Training 8: init GAME! vs IDSAgent 2
+Training 5: init Training
+Training 5: learnValue = 0.0
+Training 5: Removing boardSequence.
+Training 5: Removed.
+Training 5: Training Done! won:0 draws:1 lost:3 lostHimself:0
+Iteration: 9
+Training 9: init GAME! vs IDSAgent 1
+Training 8: init Training
+Training 8: learnValue = -1.0
+Training 8: Removing boardSequence.
+Training 8: Removed.
+Training 8: Training Done! won:0 draws:1 lost:4 lostHimself:0
+Iteration: 10
+Training 10: init GAME! vs IDSAgent 2
+Training 2: init Training
+Training 2: learnValue = 0.0
+Training 2: Removing boardSequence.
+Training 2: Removed.
+Training 2: Training Done! won:0 draws:2 lost:4 lostHimself:0
+Iteration: 11
+Training 11: init GAME! vs IDSAgent 1
+Training 10: init Training
+Training 10: learnValue = -1.0
+Training 10: Removing boardSequence.
+Training 10: Removed.
+Training 10: Training Done! won:0 draws:2 lost:5 lostHimself:0
+Iteration: 12
+Training 12: init GAME! vs IDSAgent 1
+Training 11: init Training
+Training 11: learnValue = -1.0
+Training 11: Removing boardSequence.
+Training 11: Removed.
+Training 11: Training Done! won:0 draws:2 lost:6 lostHimself:0
+Iteration: 13
+Training 13: init GAME! vs IDSAgent 2
+Training 7: init Training
+Training 7: learnValue = 0.0
+Training 7: Removing boardSequence.
+Training 7: Removed.
+Training 7: Training Done! won:0 draws:3 lost:6 lostHimself:0
+Iteration: 6
+Training 6: init GAME! vs IDSAgent 1
+Training 9: init Training
+Training 9: learnValue = -1.0
+Training 9: Removing boardSequence.
+Training 9: Removed.
+Training 9: Training Done! won:0 draws:3 lost:7 lostHimself:0
+Iteration: 14
+Training 14: init GAME! vs IDSAgent 2
+Training 13: init Training
+Training 13: learnValue = -1.0
+Training 13: Removing boardSequence.
+Training 13: Removed.
+Training 13: Training Done! won:0 draws:3 lost:8 lostHimself:0
+Iteration: 15
+Training 15: init GAME! vs IDSAgent 1
+Training 14: init Training
+Training 14: learnValue = 0.0
+Training 14: Removing boardSequence.
+Training 14: Removed.
+Training 14: Training Done! won:0 draws:4 lost:8 lostHimself:0
+Iteration: 17
+Training 17: init GAME! vs IDSAgent 2
+Training 6: init Training
+Training 6: learnValue = -1.0
+Training 6: Removing boardSequence.
+Training 6: Removed.
+Training 6: Training Done! won:0 draws:4 lost:9 lostHimself:0
+Iteration: 18
+Training 18: init GAME! vs IDSAgent 2
+Training 15: init Training
+Training 15: learnValue = -1.0
+Training 15: Removing boardSequence.
+Training 15: Removed.
+Training 15: Training Done! won:0 draws:4 lost:10 lostHimself:0
+Iteration: 19
+Training 19: init GAME! vs IDSAgent 2
+Training 17: init Training
+Training 17: learnValue = -1.0
+Training 17: Removing boardSequence.
+Training 17: Removed.
+Training 17: Training Done! won:0 draws:4 lost:11 lostHimself:0
+Iteration: 20
+Training 20: init GAME! vs IDSAgent 2
+Training 18: init Training
+Training 18: learnValue = -1.0
+Training 18: Removing boardSequence.
+Training 18: Removed.
+Training 18: Training Done! won:0 draws:4 lost:12 lostHimself:0
+Iteration: 21
+Training 21: init GAME! vs IDSAgent 2
+Training 20: init Training
+Training 20: learnValue = -1.0
+Training 20: Removing boardSequence.
+Training 20: Removed.
+Training 20: Training Done! won:0 draws:4 lost:13 lostHimself:0
+Iteration: 23
+Training 23: init GAME! vs IDSAgent 1
+Training 12: init Training
+Training 12: learnValue = 0.0
+Training 12: Removing boardSequence.
+Training 12: Removed.
+Training 12: Training Done! won:0 draws:5 lost:13 lostHimself:0
+Iteration: 24
+Training 24: init GAME! vs IDSAgent 2
+Training 19: init Training
+Training 19: learnValue = 0.0
+Training 19: Removing boardSequence.
+Training 19: Removed.
+Training 19: Training Done! won:0 draws:6 lost:13 lostHimself:0
+Iteration: 25
+Training 25: init GAME! vs IDSAgent 1
+Training 21: init Training
+Training 21: learnValue = 0.0
+Training 21: Removing boardSequence.
+Training 21: Removed.
+Training 21: Training Done! won:0 draws:7 lost:13 lostHimself:0
+Iteration: 26
+Training 26: init GAME! vs IDSAgent 2
+Training 24: init Training
+Training 24: learnValue = -1.0
+Training 24: Removing boardSequence.
+Training 24: Removed.
+Training 24: Training Done! won:0 draws:7 lost:14 lostHimself:0
+Iteration: 27
+Training 27: init GAME! vs IDSAgent 2
+Training 25: init Training
+Training 25: learnValue = -1.0
+Training 25: Removing boardSequence.
+Training 25: Removed.
+Training 25: Training Done! won:0 draws:7 lost:15 lostHimself:0
+Iteration: 28
+Training 28: init GAME! vs IDSAgent 2
+Training 26: init Training
+Training 26: learnValue = -1.0
+Training 26: Removing boardSequence.
+Training 26: Removed.
+Training 26: Training Done! won:0 draws:7 lost:16 lostHimself:0
+Iteration: 29
+Training 29: init GAME! vs IDSAgent 2
+Training 27: init Training
+Training 27: learnValue = 0.0
+Training 27: Removing boardSequence.
+Training 27: Removed.
+Training 27: Training Done! won:0 draws:8 lost:16 lostHimself:0
+Iteration: 30
+Training 30: init GAME! vs IDSAgent 2
+Training 28: init Training
+Training 28: learnValue = 0.0
+Training 28: Removing boardSequence.
+Training 28: Removed.
+Training 28: Training Done! won:0 draws:9 lost:16 lostHimself:0
+Iteration: 31
+Training 31: init GAME! vs IDSAgent 2
+Training 29: init Training
+Training 29: learnValue = 0.0
+Training 29: Removing boardSequence.
+Training 29: Removed.
+Training 29: Training Done! won:0 draws:10 lost:16 lostHimself:0
+Iteration: 16
+Training 16: init GAME! vs IDSAgent 2
+Training 30: init Training
+Training 30: learnValue = 0.0
+Training 30: Removing boardSequence.
+Training 30: Removed.
+Training 30: Training Done! won:0 draws:11 lost:16 lostHimself:0
+Iteration: 22
+Training 22: init GAME! vs IDSAgent 2
+Training 31: init Training
+Training 31: learnValue = -1.0
+Training 31: Removing boardSequence.
+Training 31: Removed.
+Training 31: Training Done! won:0 draws:11 lost:17 lostHimself:0
+Iteration: 32
+Training 32: init GAME! vs IDSAgent 1
+Training 32: init Training
+Training 32: learnValue = -1.0
+Training 32: Removing boardSequence.
+Training 32: Removed.
+Training 32: Training Done! won:0 draws:11 lost:18 lostHimself:0
+Training 16: init Training
+Training 16: learnValue = 0.0
+Training 16: Removing boardSequence.
+Training 16: Removed.
+Training 16: Training Done! won:0 draws:12 lost:18 lostHimself:0
+Training 22: init Training
+Training 22: learnValue = -1.0
+Training 22: Removing boardSequence.
+Training 22: Removed.
+Training 22: Training Done! won:0 draws:12 lost:19 lostHimself:0
+Training 23: init Training
+Training 23: learnValue = 0.0
+Training 23: Removing boardSequence.
+Training 23: Removed.
+Training 23: Training Done! won:0 draws:13 lost:19 lostHimself:0
