@@ -49,8 +49,11 @@ public class LayerBridge implements Serializable
 			this.layer1.neurons[i].setBpval(0);
 			for (int j=0; j < this.layer2.neurons.length ; j++)
 			{
+				//calculate delta which its used to modified actual weight and added to layer 1's neuron bpval
 				double delta = this.layer2.neurons[j].getBpval() * this.layer2.neurons[j].getPartialDerivate();
+				//update neuron bpval
 				this.layer1.neurons[i].setBpval(this.layer1.neurons[i].getBpval() + delta*this.weights[i][j]);
+				//update the current weight
 				this.weights[i][j] -= lrate * delta * this.layer1.neurons[i].getOutputValue();		
 			}	
 		}	

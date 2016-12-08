@@ -36,6 +36,12 @@ public class Neuron implements Serializable
 		changed = true;
 	}
 
+	public void setOutputValue(double value)
+	{
+		this.outputValue = value;
+		changed = false;
+	}
+
 	public void setBpval(double val)
 	{
 		this.bpval = val;

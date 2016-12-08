@@ -7,7 +7,7 @@ import java.lang.Math;
 public class Trainer
 {
 	public static String TRAININGANGENT ="java HotSingleAgent 2";
-	public String[] enemies = {/*"java HotSingleAgent 2","java RandomAgent",*/"java IDSAgent 2","java IDSAgent 1"};
+	public String[] enemies = {"java HotSingleAgent 2",/*"java RandomAgent",*/"java IDSAgent 2","java IDSAgent 1"};
 
 	public static final double LAMBDA = 0.5;
 

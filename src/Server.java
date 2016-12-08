@@ -11,7 +11,7 @@ public class Server {
 
 
 
-	public static String RANDOMAGENTCOMMAND="java RandomAgent";
+	public static String RANDOMAGENTCOMMAND="java IDSAgent 2";
 	int timelimit=2; // TIME LIMIT IN MINUTES
 
 

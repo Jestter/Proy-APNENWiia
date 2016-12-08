@@ -56,7 +56,7 @@ public class NeuralNetwork extends Heuristic
 	**/
 	public int evaluate(Board inb) 
 	{
-	   return (int)(100*(this.network.evaluate(inb)*2-1));
+	   return (int)(100*(this.network.evaluate(inb.clone())*2-1));
 	}
 
 }

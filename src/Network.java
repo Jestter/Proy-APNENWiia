@@ -12,10 +12,10 @@ public class Network implements Serializable
 	public Network(int hiddenLayers,int[] neuronsForLayer,double[] biasForLayer, double learningRate)
 	{
 		this.learningRate = learningRate;
-		//se crea la primera capa(64 neuronas para representar tablero) y la ultima (1 neurona)
+		//se crea la primera capa(32 neuronas para piezas + 14 para datos de interes) y la ultima (1 neurona de salida)
 		this.output = new Neuron();
-		Neuron[] initLayerNeurons = new Neuron[68];
-		for (int i=0;i < 68 ; i++) 
+		Neuron[] initLayerNeurons = new Neuron[46];
+		for (int i=0;i < 46 ; i++) 
 		{
 			initLayerNeurons[i] = new Neuron();
 		}
@@ -47,19 +47,98 @@ public class Network implements Serializable
 
 	public double evaluate(Board board)
 	{
+		int[] numPieces = {8,2,2,2,1,1};
+		int[] numWhite = new int[6];
+		int[] numBlack = new int[6];
 		//se setean las neuronas de la primera capa segun el tablero
 		for (int i=0;i < Board.BOARDSIZE; i++ ) 
 		{
 			for (int j=0;j < Board.BOARDSIZE; j++ ) 
 			{
-				initLayer.neurons[i*Board.BOARDSIZE+j].setInputValue(board.getPiece(new Coord(i,j)));
+				int piece = board.getPiece(new Coord(i,j));
+				if(piece>0)
+				{
+					numWhite[piece-1]++;
+				}
+				if(piece<0)
+				{
+					piece*=-1;
+					numBlack[piece-1]++;
+				}
 			}			
 		}
 
-		initLayer.neurons[64].setInputValue(board.getShortCastle(Board.TURNBLACK)?1:0);
-		initLayer.neurons[65].setInputValue(board.getLongCastle(Board.TURNBLACK)?1:0);
-		initLayer.neurons[66].setInputValue(board.getShortCastle(Board.TURNWHITE)?1:0);
-		initLayer.neurons[67].setInputValue(board.getLongCastle(Board.TURNWHITE)?1:0);
+		int layerPointer = 0;
+
+		//white pieces
+		for (int p=0; p < 6 ; p++) 
+		{
+			int i = 0;
+			for (; i < numWhite[p] ; i++) 
+			{
+				initLayer.neurons[layerPointer++].setOutputValue(1);
+			}
+			for (; i < numPieces[p] ; i++) 
+			{
+				initLayer.neurons[layerPointer++].setOutputValue(0);
+			}
+		}
+		//black pieces
+		for (int p=0; p < 6 ; p++) 
+		{
+			int i = 0;
+			for (; i < numBlack[p] ; i++) 
+			{
+				initLayer.neurons[layerPointer++].setOutputValue(1);
+			}
+			for (; i < numPieces[p] ; i++) 
+			{
+				initLayer.neurons[layerPointer++].setOutputValue(0);
+			}
+		}
+
+		board.turn = -1;
+		initLayer.neurons[layerPointer++].setOutputValue(board.getValidMoves().length);
+		board.turn = 1;
+		initLayer.neurons[layerPointer++].setOutputValue(board.getValidMoves().length);
+
+		//looking for both kings
+		Coord posKingWhite = null;
+		Coord posKingBlack = null;
+		for (int i=0; i < 8 ; i++)
+		{
+			for (int j=0;j < 8 ;j++) 
+			{
+				Coord coord = new Coord(i,j);
+				//piece is king
+				if(board.getPiece(coord) == 6)
+				{
+					posKingWhite = coord;
+				}
+				if(board.getPiece(coord) == -6)
+				{
+					posKingBlack = coord;
+				}
+			}
+			if(posKingWhite!=null && posKingBlack!=null)break;
+		}
+
+		initLayer.neurons[layerPointer++].setOutputValue(board.kingMoves(posKingWhite,1).length);
+		initLayer.neurons[layerPointer++].setOutputValue(board.kingMoves(posKingBlack,-1).length);
+
+		initLayer.neurons[layerPointer++].setOutputValue(Util.closerPromotion(board,1));
+		initLayer.neurons[layerPointer++].setOutputValue(Util.closerPromotion(board,-1));
+
+		initLayer.neurons[layerPointer++].setOutputValue(Util.fatherDevelopment(board,1));
+		initLayer.neurons[layerPointer++].setOutputValue(Util.fatherDevelopment(board,-1));
+
+		initLayer.neurons[layerPointer++].setOutputValue(Util.potentialThread(board,1));
+		initLayer.neurons[layerPointer++].setOutputValue(Util.potentialThread(board,-1));
+
+		initLayer.neurons[layerPointer++].setOutputValue(board.getShortCastle(Board.TURNBLACK)?1:0);
+		initLayer.neurons[layerPointer++].setOutputValue(board.getLongCastle(Board.TURNBLACK)?1:0);
+		initLayer.neurons[layerPointer++].setOutputValue(board.getShortCastle(Board.TURNWHITE)?1:0);
+		initLayer.neurons[layerPointer++].setOutputValue(board.getLongCastle(Board.TURNWHITE)?1:0);
 		//se propagan los valores
 		for (LayerBridge bridge : bridges)
 		{
