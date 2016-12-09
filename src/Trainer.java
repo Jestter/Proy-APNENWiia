@@ -7,7 +7,7 @@ import java.lang.Math;
 public class Trainer
 {
 	public static String TRAININGANGENT ="java HotSingleAgent 2";
-	public String[] enemies = {"java HotSingleAgent 2",/*"java RandomAgent",*/"java IDSAgent 2","java IDSAgent 1"};
+	public String[] enemies = {"java HotSingleAgent 2",/*"java RandomAgent","java IDSAgent 2"/*,"java IDSAgent 1"*/};
 
 	public static final double LAMBDA = 0.5;
 
@@ -167,6 +167,9 @@ public class Trainer
 					if(s.winner == Server.AGENT0) {learnValue = 1;won++;folder = "wins";}
 					else if(TRAININGANGENT != enemies[enemyID]){learnValue = -1;lost++;folder = "lost";}
 					else {learnValue = -1;lostHimself++;folder = "lost";}
+
+					if(s.winnerSide == Server.WHITE) learnValue = 1;
+					else learnValue = -1;
 				}
 				else draws++;
 
@@ -174,13 +177,14 @@ public class Trainer
 				{
 					copySequence.acquire();
 					Path path1 = new File("boardSequence"+trainNumber+".train").toPath();
-					Path path2 = new File(searchNewFileName(folder+"/"+totalMoves+"boardSequence","train")).toPath();
+					Path path2 = new File(searchNewFileName(folder+"/"+totalMoves+"boardSequence"+(learnValue==1?"WHITE":(learnValue==-1?"BLACK":"")),"train")).toPath();
 					Files.copy(path1, path2, StandardCopyOption.REPLACE_EXISTING);
 					copySequence.release();
 				}catch(Exception ex){ex.printStackTrace();}
 
 				System.out.println("Training "+trainNumber+": "+"learnValue = "+learnValue);
 
+			
 				networkFileLock.acquire();
 				Network net = (Network)Util.loadObject("TDNetwork.nn");
 				if(net == null)
@@ -237,6 +241,7 @@ public class Trainer
 				if(!Util.saveObject(net,"TDNetwork.nn")) System.out.println("Training "+trainNumber+": "+"ERROR: problema al guardar red.");
 
 				networkFileLock.release();
+			
 
 				System.out.println("Training "+trainNumber+": "+"Removing boardSequence.");
 				File f = new File("boardSequence"+trainNumber+".train");

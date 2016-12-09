@@ -11,7 +11,7 @@ public class Server {
 
 
 
-	public static String RANDOMAGENTCOMMAND="java IDSAgent 2";
+	public static String RANDOMAGENTCOMMAND="java RandomAgent";
 	int timelimit=2; // TIME LIMIT IN MINUTES
 
 
@@ -20,6 +20,9 @@ public class Server {
 	public static int NOBODY=-1;
 	public static int AGENT0=0;	
 	public static int AGENT1=1;	
+
+	public static int WHITE = 0;
+	public static int BLACK = 1;
 
 	
 	public Agent[] agent;
@@ -33,6 +36,7 @@ public class Server {
 
 	int currentagent;
 	public int winner;
+	public int winnerSide;
 	public int loser;
 	boolean gameover;
 	public boolean draw;
@@ -102,6 +106,7 @@ public class Server {
 					agents[currentagent].addLoss();
 					if(comments)System.out.println(agents[currentagent] + " tried to play an invalid move.");
 					if(comments)System.out.println(agents[winner] + " wins the game.");
+					winnerSide = currentmove%2;
 				}
 				else
 				{

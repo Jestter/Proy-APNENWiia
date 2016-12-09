@@ -1,0 +1,92 @@
+Iteration: 1
+Iteration: 3
+Iteration: 4
+Iteration: 2
+Training 4: init GAME! vs HotSingleAgent 2
+Training 2: init GAME! vs HotSingleAgent 2
+Training 3: init GAME! vs HotSingleAgent 2
+Training 1: init GAME! vs HotSingleAgent 2
+Training 3: init Training
+Training 1: init Training
+Training 3: learnValue = 1.0
+Training 1: learnValue = 1.0
+Training 2: init Training
+Training 2: learnValue = 1.0
+Training 4: init Training
+Training 4: learnValue = 1.0
+Training 3: Removing boardSequence.
+Training 3: Removed.
+Training 3: Training Done! won:0 draws:0 lost:0 lostHimself:4
+Iteration: 5
+Training 5: init GAME! vs HotSingleAgent 2
+Training 1: Removing boardSequence.
+Training 1: Removed.
+Training 1: Training Done! won:0 draws:0 lost:0 lostHimself:4
+Iteration: 6
+Training 6: init GAME! vs HotSingleAgent 2
+Training 2: Removing boardSequence.
+Training 2: Removed.
+Training 2: Training Done! won:0 draws:0 lost:0 lostHimself:4
+Iteration: 8
+Training 8: init GAME! vs HotSingleAgent 2
+Training 4: Removing boardSequence.
+Training 4: Removed.
+Training 4: Training Done! won:0 draws:0 lost:0 lostHimself:4
+Iteration: 9
+Training 9: init GAME! vs HotSingleAgent 2
+Training 5: init Training
+Training 5: learnValue = 1.0
+Training 5: Removing boardSequence.
+Training 5: Removed.
+Training 5: Training Done! won:1 draws:0 lost:0 lostHimself:4
+Iteration: 10
+Training 10: init GAME! vs HotSingleAgent 2
+Training 9: init Training
+Training 9: learnValue = 1.0
+Training 6: init Training
+Training 6: learnValue = 1.0
+Training 9: Removing boardSequence.
+Training 9: Removed.
+Training 9: Training Done! won:3 draws:0 lost:0 lostHimself:4
+Iteration: 11
+Training 11: init GAME! vs HotSingleAgent 2
+Training 8: init Training
+Training 8: learnValue = 1.0
+Training 6: Removing boardSequence.
+Training 6: Removed.
+Training 6: Training Done! won:4 draws:0 lost:0 lostHimself:4
+Iteration: 12
+Training 12: init GAME! vs HotSingleAgent 2
+Training 8: Removing boardSequence.
+Training 8: Removed.
+Training 8: Training Done! won:4 draws:0 lost:0 lostHimself:4
+Iteration: 13
+Training 13: init GAME! vs HotSingleAgent 2
+Training 10: init Training
+Training 10: learnValue = 1.0
+Training 12: init Training
+Training 12: learnValue = 1.0
+Training 10: Removing boardSequence.
+Training 10: Removed.
+Training 10: Training Done! won:6 draws:0 lost:0 lostHimself:4
+Iteration: 14
+Training 14: init GAME! vs HotSingleAgent 2
+Training 12: Removing boardSequence.
+Training 12: Removed.
+Training 12: Training Done! won:6 draws:0 lost:0 lostHimself:4
+Iteration: 15
+Training 15: init GAME! vs HotSingleAgent 2
+Training 13: init Training
+Training 13: learnValue = 1.0
+Training 11: init Training
+Training 11: learnValue = 1.0
+Training 13: Removing boardSequence.
+Training 13: Removed.
+Training 13: Training Done! won:7 draws:0 lost:0 lostHimself:5
+Iteration: 16
+Training 16: init GAME! vs HotSingleAgent 2
+Training 11: Removing boardSequence.
+Training 11: Removed.
+Training 11: Training Done! won:7 draws:0 lost:0 lostHimself:5
+Iteration: 17
+Training 17: init GAME! vs HotSingleAgent 2
